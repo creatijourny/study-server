@@ -71,6 +71,13 @@ async function run() {
         // {$set: updatedData}
       )
       res.json(result)
+    });
+
+    app.get('/bookings/:userId', async(req, res) => {
+      const { userId } = req.params;
+      
+      const result = await bookingCollection.find({ userId: userId }).toArray();
+      res.json(result);
     })
 
     app.post('/bookings', async(req, res) => {
@@ -80,7 +87,12 @@ async function run() {
       res.json(result);
     })
 
+    app.delete('/bookings/:bookingId', async (req, res) => {
+      const { bookingId } = req.params;
+      const result = await bookingCollection.deleteOne({_id: new ObjectId(bookingId)});
 
+      res.json(result);
+    })
 
 
     
